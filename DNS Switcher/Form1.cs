@@ -2,18 +2,19 @@ namespace DNS_Switcher
 {
     public partial class Form1 : Form
     {
-        private List<string> _DNSList;
-        private Lazy<HttpClient> _httpClient;
+        private List<string> _DNSList = new();
         public Form1()
         {
             InitializeComponent();
             try
             {
-                _DNSList = File.ReadLines("DNS-List.txt").ToList();
+                _DNSList.AddRange(File.ReadLines("DNS-List.txt"));
             }
             catch (Exception ex)
             {
                 
+                
+                _DNSList.AddRange();
             }
         }
 
