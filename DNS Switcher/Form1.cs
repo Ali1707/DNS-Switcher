@@ -1,26 +1,22 @@
+using DNS_Switcher.Models;
+using DNS_Switcher.Services;
+
 namespace DNS_Switcher
 {
     public partial class Form1 : Form
     {
-        private List<string> _DNSList = new();
+        private List<DNSServerModel> _DNSList = new();
+        private Lazy<DNSSerrvices> _DNSSerrvice = new Lazy<DNSSerrvices>(() => new DNSSerrvices());
         public Form1()
         {
             InitializeComponent();
-            try
-            {
-                _DNSList.AddRange(File.ReadLines("DNS-List.txt"));
-            }
-            catch (Exception ex)
-            {
-                
-                
-                _DNSList.AddRange();
-            }
-        }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
+            var dnsServise = _DNSSerrvice.Value;
+            var dnsServersFromIntenet = dnsServise.GetDNSFromInternet().Result;
+            if (dnsServersFromIntenet != null)
+            {
+                _DNSList.AddRange(dnsServersFromIntenet);
+            }
         }
     }
 }
