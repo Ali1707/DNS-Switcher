@@ -24,4 +24,8 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DNS List\" />
+  </ItemGroup>
+
 </Project>
