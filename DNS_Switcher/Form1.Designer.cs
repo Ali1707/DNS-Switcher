@@ -93,6 +93,7 @@
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "DNS Switcher";
+            Load += Form1_Load;
             ResumeLayout(false);
             PerformLayout();
         }

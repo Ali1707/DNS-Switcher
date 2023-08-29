@@ -6,14 +6,17 @@ namespace DNS_Switcher
     public partial class Form1 : Form
     {
         private List<DNSServerModel> _DNSList = new();
-        private Lazy<DNSSerrvices> _DNSSerrvice = new Lazy<DNSSerrvices>(() => new DNSSerrvices());
+        private DnsService _DnsService = new();
         public Form1()
         {
             InitializeComponent();
 
-            var dnsServise = _DNSSerrvice.Value;
-            var dnsServersFromIntenet = dnsServise.GetDNSFromInternet().Result;
-            if (dnsServersFromIntenet != null)
+        }
+
+        private async void Form1_Load(object sender, EventArgs e)
+        {
+            var dnsServersFromIntenet = await _DnsService.GetDNSFromInternet();
+            if (dnsServersFromIntenet.Count > 0)
             {
                 _DNSList.AddRange(dnsServersFromIntenet);
             }
