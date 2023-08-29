@@ -28,19 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            textBox1 = new TextBox();
             DNSList = new ComboBox();
             SetDNS = new Button();
-            AddDNS = new Button();
             ClearDNS = new Button();
+            AddDNS = new Button();
+            IP6checkBox = new CheckBox();
+            DoHcheckBox = new CheckBox();
             SuspendLayout();
-            // 
-            // textBox1
-            // 
-            textBox1.Location = new Point(12, 58);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(162, 23);
-            textBox1.TabIndex = 0;
             // 
             // DNSList
             // 
@@ -52,21 +46,13 @@
             // 
             // SetDNS
             // 
+            SetDNS.ForeColor = SystemColors.ActiveCaptionText;
             SetDNS.Location = new Point(180, 11);
             SetDNS.Name = "SetDNS";
             SetDNS.Size = new Size(70, 34);
             SetDNS.TabIndex = 2;
             SetDNS.Text = "Set DNS";
             SetDNS.UseVisualStyleBackColor = true;
-            // 
-            // AddDNS
-            // 
-            AddDNS.Location = new Point(180, 51);
-            AddDNS.Name = "AddDNS";
-            AddDNS.Size = new Size(70, 35);
-            AddDNS.TabIndex = 3;
-            AddDNS.Text = "Add DNS";
-            AddDNS.UseVisualStyleBackColor = true;
             // 
             // ClearDNS
             // 
@@ -77,18 +63,52 @@
             ClearDNS.Text = "Clear Current DNS";
             ClearDNS.UseVisualStyleBackColor = true;
             // 
+            // AddDNS
+            // 
+            AddDNS.Location = new Point(180, 51);
+            AddDNS.Name = "AddDNS";
+            AddDNS.Size = new Size(70, 35);
+            AddDNS.TabIndex = 3;
+            AddDNS.Text = "Add DNS";
+            AddDNS.UseVisualStyleBackColor = true;
+            // 
+            // IP6checkBox
+            // 
+            IP6checkBox.AutoSize = true;
+            IP6checkBox.BackColor = Color.Transparent;
+            IP6checkBox.ForeColor = SystemColors.ButtonHighlight;
+            IP6checkBox.Location = new Point(35, 60);
+            IP6checkBox.Name = "IP6checkBox";
+            IP6checkBox.Size = new Size(42, 19);
+            IP6checkBox.TabIndex = 5;
+            IP6checkBox.Text = "IP6";
+            IP6checkBox.UseVisualStyleBackColor = false;
+            // 
+            // DoHcheckBox
+            // 
+            DoHcheckBox.AutoSize = true;
+            DoHcheckBox.BackColor = Color.Transparent;
+            DoHcheckBox.ForeColor = SystemColors.ButtonHighlight;
+            DoHcheckBox.Location = new Point(98, 60);
+            DoHcheckBox.Name = "DoHcheckBox";
+            DoHcheckBox.Size = new Size(50, 19);
+            DoHcheckBox.TabIndex = 6;
+            DoHcheckBox.Text = "DoH";
+            DoHcheckBox.UseVisualStyleBackColor = false;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Black;
             BackgroundImageLayout = ImageLayout.None;
-            ClientSize = new Size(259, 133);
+            ClientSize = new Size(263, 133);
+            Controls.Add(DoHcheckBox);
+            Controls.Add(IP6checkBox);
             Controls.Add(ClearDNS);
             Controls.Add(AddDNS);
             Controls.Add(SetDNS);
             Controls.Add(DNSList);
-            Controls.Add(textBox1);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
@@ -99,11 +119,11 @@
         }
 
         #endregion
-
-        private TextBox textBox1;
         private ComboBox DNSList;
         private Button SetDNS;
-        private Button AddDNS;
         private Button ClearDNS;
+        private Button AddDNS;
+        private CheckBox IP6checkBox;
+        private CheckBox DoHcheckBox;
     }
 }

@@ -15,11 +15,22 @@ namespace DNS_Switcher
 
         private async void Form1_Load(object sender, EventArgs e)
         {
-            var dnsServersFromIntenet = await _DnsService.GetDNSFromInternet();
-            if (dnsServersFromIntenet.Count > 0)
+            if (DNSList.Items.Count == 0)
             {
-                _DNSList.AddRange(dnsServersFromIntenet);
+
+                var dnsServers = await _DnsService.GetDNS();
+                if (dnsServers.Count > 0)
+                {
+                    _DNSList.AddRange(dnsServers);
+                    foreach (var dnsServer in dnsServers)
+                    {
+                        DNSList.Items.Add(dnsServer.DNSServerName);
+                    }
+                    DNSList.SelectedIndex = 0;
+                }
             }
         }
+
+
     }
 }
