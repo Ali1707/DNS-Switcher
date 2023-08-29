@@ -15,8 +15,9 @@ namespace DNS_Switcher.Services
             httpClient.Timeout = TimeSpan.FromSeconds(10);
             try
             {
-                var DNSJson = await httpClient.GetStringAsync("https://raw.githubusercontent.com/Ali1707/DNS-Switcher/master/DNS%20Switcher/DNS%20List/DNS_list.json");
-                return ConvertJsonToDNSServerModel(DNSJson);
+                var url = "https://raw.githubusercontent.com/Ali1707/DNS-Switcher/master/DNS_Switcher/DNS_List/DNS_list.json";
+                var DNSJson = await httpClient.GetAsync(url);
+                return ConvertJsonToDNSServerModel("");
             }
             catch
             {
