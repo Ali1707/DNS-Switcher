@@ -8,7 +8,7 @@
     "DOH": "https://1.1.1.1/dns-query"
   },
   {
-    "DNSServerName": "AdGuard DNS",
+    "DNSServerName": "AdGuard",
     "IPV4Index1": "94.140.14.14",
     "IPV4Index2": "94.140.15.15",
     "IPV6Index1": "2a00:5a60::ad1:0ff",
@@ -32,7 +32,7 @@
     "DOH": "https://dns.quad9.net/dns-query"
   },
   {
-    "DNSServerName": "Google DNS",
+    "DNSServerName": "Google",
     "IPV4Index1": "8.8.8.8",
     "IPV4Index2": "8.8.4.4",
     "IPV6Index1": "2001:4860:4860::8888",

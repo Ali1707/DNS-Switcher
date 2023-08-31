@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DNSList = new ComboBox();
+            DNSCombobox = new ComboBox();
             SetDNS = new Button();
             ClearDNS = new Button();
             AddDNS = new Button();
@@ -36,13 +36,15 @@
             DoHcheckBox = new CheckBox();
             SuspendLayout();
             // 
-            // DNSList
+            // DNSCombobox
             // 
-            DNSList.FormattingEnabled = true;
-            DNSList.Location = new Point(12, 18);
-            DNSList.Name = "DNSList";
-            DNSList.Size = new Size(162, 23);
-            DNSList.TabIndex = 1;
+            DNSCombobox.AutoCompleteMode = AutoCompleteMode.Suggest;
+            DNSCombobox.AutoCompleteSource = AutoCompleteSource.ListItems;
+            DNSCombobox.FormattingEnabled = true;
+            DNSCombobox.Location = new Point(12, 18);
+            DNSCombobox.Name = "DNSCombobox";
+            DNSCombobox.Size = new Size(162, 23);
+            DNSCombobox.TabIndex = 1;
             // 
             // SetDNS
             // 
@@ -53,6 +55,7 @@
             SetDNS.TabIndex = 2;
             SetDNS.Text = "Set DNS";
             SetDNS.UseVisualStyleBackColor = true;
+            SetDNS.Click += SetDNS_Click;
             // 
             // ClearDNS
             // 
@@ -108,7 +111,7 @@
             Controls.Add(ClearDNS);
             Controls.Add(AddDNS);
             Controls.Add(SetDNS);
-            Controls.Add(DNSList);
+            Controls.Add(DNSCombobox);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
@@ -119,7 +122,7 @@
         }
 
         #endregion
-        private ComboBox DNSList;
+        private ComboBox DNSCombobox;
         private Button SetDNS;
         private Button ClearDNS;
         private Button AddDNS;
