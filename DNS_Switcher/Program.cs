@@ -1,3 +1,4 @@
+using DNS_Switcher.Froms;
 namespace DNS_Switcher
 {
     internal static class Program

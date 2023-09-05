@@ -3,7 +3,7 @@ using DNS_Switcher.Services;
 using System.Diagnostics;
 using System.Net.NetworkInformation;
 
-namespace DNS_Switcher
+namespace DNS_Switcher.Froms
 {
     public partial class Form1 : Form
     {

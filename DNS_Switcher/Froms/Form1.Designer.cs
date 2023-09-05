@@ -1,4 +1,4 @@
-﻿namespace DNS_Switcher
+﻿namespace DNS_Switcher.Froms
 {
     partial class Form1
     {
