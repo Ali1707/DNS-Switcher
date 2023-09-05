@@ -45,10 +45,16 @@ namespace DNS_Switcher.Froms
 
             if (dns != null)
             {
-                var IP4Index1 = dns.IPV4Index1;
-                var IP4Index2 = dns.IPV4Index2;
-                if (_DnsService.SetIP4DnsForAllNetwork(IP4Index1, IP4Index2))
+                if (_DnsService.SetIP4DnsForAllNetwork(dns.IPV4Index1, dns.IPV4Index2))
                 {
+                    if (IP6checkBox.Checked)
+                    {
+                        _DnsService.SetIP6ForAllNetWork(dns.IPV6Index1, dns.IPV6Index2);
+                    }
+                    if(DoHcheckBox.Checked)
+                    {
+                        _DnsService.SetDohAllNetWork(dns.IPV4Index1,dns.DOH);
+                    }
                     MessageBox.Show("successful");
                 }
 

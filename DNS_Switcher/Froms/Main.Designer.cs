@@ -100,7 +100,7 @@
             DoHcheckBox.Text = "DoH";
             DoHcheckBox.UseVisualStyleBackColor = false;
             // 
-            // Form1
+            // Main
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -114,7 +114,7 @@
             Controls.Add(SetDnsBtn);
             Controls.Add(DNSCombobox);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
-            Name = "Form1";
+            Name = "Main";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "DNS Switcher";
             Load += Form1_Load;

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Management.Automation;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Text;
@@ -79,6 +80,8 @@ namespace DNS_Switcher.Services
                 MessageBox.Show(ex.Message);
             }
         }
+
+
         /// <summary>
         /// get a dns add to last dns 
         /// </summary>
@@ -109,17 +112,23 @@ namespace DNS_Switcher.Services
             }
         }
 
+        /// <summary>
+        /// set ip v4 for all network profile
+        /// </summary>
+        /// <param name="ip4DnsIndex1"></param>
+        /// <param name="ip4DnsIndex2"></param>
+        /// <returns></returns>
         public bool SetIP4DnsForAllNetwork(string ip4DnsIndex1, string? ip4DnsIndex2)
         {
             try
             {
                 foreach (var networkName in GetActiveNetworkName())
                 {
-                    var command = $"interface ipv4 set dns name=\"{networkName}\" static {ip4DnsIndex1}";
+                    var command = $@"interface ipv4 set dns name=""{networkName}"" static {ip4DnsIndex1}";
                     Process.Start("netsh", command);
                     if (ip4DnsIndex2 != null)
                     {
-                        var command2 = $"interface ipv4 add dns name=\"{networkName}\" addr={ip4DnsIndex2} index=2";
+                        var command2 = $@"interface ipv4 add dns name=""{networkName}"" addr={ip4DnsIndex2} index=2";
                         Process.Start("netsh", command2);
                     }
                 }
@@ -132,6 +141,53 @@ namespace DNS_Switcher.Services
             }
         }
 
+
+        public bool SetIP6ForAllNetWork(string? ip6DnsIndex1, string? ip6DnsIndex2)
+        {
+            try
+            {
+                foreach (var networkName in GetActiveNetworkName())
+                {
+                    if (ip6DnsIndex1 != null)
+                    {
+                        var command = $@"interface ipv6 add dnsservers ""{networkName}"" ""{ip6DnsIndex1}"" index=1";
+                        Process.Start("netsh", command);
+                    }
+                    if (ip6DnsIndex2 != null)
+                    {
+                        var command2 = $@"interface ipv6 add dnsservers ""{networkName}"" ""{ip6DnsIndex2}"" index=2";
+                        Process.Start("netsh", command2);
+                    }
+                }
+                return true;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                return false;
+            }
+        }
+        public bool SetDohAllNetWork(string ip4,string? doh)
+        {
+            try
+            {
+                foreach (var networkName in GetActiveNetworkName())
+                {
+                    var command = $@"Add-DnsClientDohServerAddress -ServerAddress {networkName} -DohTemplate {doh}";
+                    Process.Start("powershell.exe", command);
+                }
+                return true;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                return false;
+            }
+        }
+        /// <summary>
+        /// get name of all network profile
+        /// </summary>
+        /// <returns></returns>
         IEnumerable<string> GetActiveNetworkName()
         {
             foreach (NetworkInterface adapter in NetworkInterface.GetAllNetworkInterfaces())
