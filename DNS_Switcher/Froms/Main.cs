@@ -5,13 +5,13 @@ using System.Net.NetworkInformation;
 
 namespace DNS_Switcher.Froms
 {
-    public partial class Form1 : Form
+    public partial class Main : Form
     {
         private List<DNSServerModel> _DNSModelList = new();
         private List<string> _DNSNameList = new();
         private DnsService _DnsService = new();
 
-        public Form1()
+        public Main()
         {
             InitializeComponent();
 
