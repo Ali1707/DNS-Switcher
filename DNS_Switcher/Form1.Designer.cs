@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             DNSCombobox = new ComboBox();
-            SetDNS = new Button();
+            SetDnsBtn = new Button();
             ClearDNS = new Button();
-            AddDNS = new Button();
+            ManeageDnsBtn = new Button();
             IP6checkBox = new CheckBox();
             DoHcheckBox = new CheckBox();
             SuspendLayout();
@@ -46,16 +46,16 @@
             DNSCombobox.Size = new Size(162, 23);
             DNSCombobox.TabIndex = 1;
             // 
-            // SetDNS
+            // SetDnsBtn
             // 
-            SetDNS.ForeColor = SystemColors.ActiveCaptionText;
-            SetDNS.Location = new Point(180, 11);
-            SetDNS.Name = "SetDNS";
-            SetDNS.Size = new Size(70, 34);
-            SetDNS.TabIndex = 2;
-            SetDNS.Text = "Set DNS";
-            SetDNS.UseVisualStyleBackColor = true;
-            SetDNS.Click += SetDNS_Click;
+            SetDnsBtn.ForeColor = SystemColors.ActiveCaptionText;
+            SetDnsBtn.Location = new Point(180, 11);
+            SetDnsBtn.Name = "SetDnsBtn";
+            SetDnsBtn.Size = new Size(70, 34);
+            SetDnsBtn.TabIndex = 2;
+            SetDnsBtn.Text = "Set DNS";
+            SetDnsBtn.UseVisualStyleBackColor = true;
+            SetDnsBtn.Click += SetDnsBtn_Click;
             // 
             // ClearDNS
             // 
@@ -66,14 +66,15 @@
             ClearDNS.Text = "Clear Current DNS";
             ClearDNS.UseVisualStyleBackColor = true;
             // 
-            // AddDNS
+            // ManeageDnsBtn
             // 
-            AddDNS.Location = new Point(180, 51);
-            AddDNS.Name = "AddDNS";
-            AddDNS.Size = new Size(70, 35);
-            AddDNS.TabIndex = 3;
-            AddDNS.Text = "Add DNS";
-            AddDNS.UseVisualStyleBackColor = true;
+            ManeageDnsBtn.Location = new Point(180, 51);
+            ManeageDnsBtn.Name = "ManeageDnsBtn";
+            ManeageDnsBtn.Size = new Size(70, 35);
+            ManeageDnsBtn.TabIndex = 3;
+            ManeageDnsBtn.Text = "Maneage";
+            ManeageDnsBtn.UseVisualStyleBackColor = true;
+            ManeageDnsBtn.Click += ManeageDnsBtn_Click;
             // 
             // IP6checkBox
             // 
@@ -109,8 +110,8 @@
             Controls.Add(DoHcheckBox);
             Controls.Add(IP6checkBox);
             Controls.Add(ClearDNS);
-            Controls.Add(AddDNS);
-            Controls.Add(SetDNS);
+            Controls.Add(ManeageDnsBtn);
+            Controls.Add(SetDnsBtn);
             Controls.Add(DNSCombobox);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "Form1";
@@ -123,9 +124,9 @@
 
         #endregion
         private ComboBox DNSCombobox;
-        private Button SetDNS;
+        private Button SetDnsBtn;
         private Button ClearDNS;
-        private Button AddDNS;
+        private Button ManeageDnsBtn;
         private CheckBox IP6checkBox;
         private CheckBox DoHcheckBox;
     }

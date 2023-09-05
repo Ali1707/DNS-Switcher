@@ -37,36 +37,28 @@ namespace DNS_Switcher
             }
         }
 
-        private void SetDNS_Click(object sender, EventArgs e)
-        {
 
+
+        private void SetDnsBtn_Click(object sender, EventArgs e)
+        {
             var dns = _DNSModelList.FirstOrDefault(d => d.DNSServerName == DNSCombobox.Text);
 
             if (dns != null)
             {
                 var IP4Index1 = dns.IPV4Index1;
                 var IP4Index2 = dns.IPV4Index2;
-                foreach (var networkName in GetActiveNetworkName())
+                if (_DnsService.SetIP4DnsForAllNetwork(IP4Index1, IP4Index2))
                 {
-                    var command = $"interface ipv4 set dns name=\"{networkName}\" static {IP4Index1}";
-                    Process.Start("netsh", command);
-                    var command2 = $"interface ipv4 add dns name=\"{networkName}\" addr={IP4Index2} index=2";
-                    Process.Start("netsh", command2);
+                    MessageBox.Show("successful");
                 }
+
             }
         }
-        List<string> GetActiveNetworkName()
+
+        private void ManeageDnsBtn_Click(object sender, EventArgs e)
         {
-            List<string> activeNetworkNames = new();
-            foreach (NetworkInterface adapter in NetworkInterface.GetAllNetworkInterfaces())
-            {
-                if (adapter.OperationalStatus == OperationalStatus.Up &&
-                   adapter.NetworkInterfaceType != NetworkInterfaceType.Loopback)
-                {
-                    activeNetworkNames.Add(adapter.Name);
-                }
-            }
-            return activeNetworkNames;
+            ManeageDnsForm MD = new ManeageDnsForm();
+            MD.ShowDialog();
         }
     }
 }

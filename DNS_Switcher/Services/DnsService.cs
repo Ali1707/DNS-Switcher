@@ -1,7 +1,10 @@
 ﻿using DNS_Switcher.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Net;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -40,7 +43,7 @@ namespace DNS_Switcher.Services
         public async Task<List<DNSServerModel>> GetDNS()
         {
             var dnsServers = new List<DNSServerModel>();
-            dnsServers = GetDNSfromFile();
+            dnsServers = GetAllDNSfromFile();
             if (dnsServers.Count == 0)
             {
                 dnsServers = await GetDNSFromInternet();
@@ -55,7 +58,7 @@ namespace DNS_Switcher.Services
         }
 
         /// <summary>
-        /// Add DNS To Local json File if Exists added if not Exists create new file
+        /// Add list of DNS To Local json File if Exists added if not Exists create new file
         /// </summary>
         /// <param name="dnsServers"></param>
         public void AddDNSToLocalFile(List<DNSServerModel> dnsServers)
@@ -77,10 +80,20 @@ namespace DNS_Switcher.Services
             }
         }
         /// <summary>
+        /// get a dns add to last dns 
+        /// </summary>
+        /// <param name="dnsServer"></param>
+        public void AddDNSToLocalFile(DNSServerModel dnsServer)
+        {
+            var dnsServers = GetAllDNSfromFile();
+            dnsServers.Add(dnsServer);
+            AddDNSToLocalFile(dnsServers);
+        }
+        /// <summary>
         /// get Dns from Local file
         /// </summary>
         /// <returns></returns>
-        public List<DNSServerModel> GetDNSfromFile()
+        public List<DNSServerModel> GetAllDNSfromFile()
         {
             var dnsServers = new List<DNSServerModel>();
             try
@@ -89,10 +102,45 @@ namespace DNS_Switcher.Services
                 dnsServers = JsonSerializer.Deserialize<List<DNSServerModel>>(dnsJson);
                 return dnsServers;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
                 return dnsServers;
+            }
+        }
+
+        public bool SetIP4DnsForAllNetwork(string ip4DnsIndex1, string? ip4DnsIndex2)
+        {
+            try
+            {
+                foreach (var networkName in GetActiveNetworkName())
+                {
+                    var command = $"interface ipv4 set dns name=\"{networkName}\" static {ip4DnsIndex1}";
+                    Process.Start("netsh", command);
+                    if (ip4DnsIndex2 != null)
+                    {
+                        var command2 = $"interface ipv4 add dns name=\"{networkName}\" addr={ip4DnsIndex2} index=2";
+                        Process.Start("netsh", command2);
+                    }
+                }
+                return true;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                return false;
+            }
+        }
+
+        IEnumerable<string> GetActiveNetworkName()
+        {
+            foreach (NetworkInterface adapter in NetworkInterface.GetAllNetworkInterfaces())
+            {
+                if (adapter.OperationalStatus == OperationalStatus.Up &&
+                   adapter.NetworkInterfaceType != NetworkInterfaceType.Loopback)
+                {
+                    yield return adapter.Name;
+                }
             }
         }
     }
