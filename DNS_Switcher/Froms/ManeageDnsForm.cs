@@ -16,7 +16,7 @@ namespace DNS_Switcher.Froms
             var dnsServers = await _DnsService.GetDNS();
             DnsGridView.DataSource = dnsServers;
             this.Height = DnsGridView.Height + 150;
-            this.Width = DnsGridView.Width + 100;
+            this.Width = DnsGridView.Width + 40;
         }
 
         private void AddDnsBtn_Click(object sender, EventArgs e)
