@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             DNSCombobox = new ComboBox();
             SetDnsBtn = new Button();
             ClearDNS = new Button();
@@ -65,6 +66,7 @@
             ClearDNS.TabIndex = 4;
             ClearDNS.Text = "Clear Current DNS";
             ClearDNS.UseVisualStyleBackColor = true;
+            ClearDNS.Click += ClearDNS_Click;
             // 
             // ManeageDnsBtn
             // 
@@ -114,6 +116,7 @@
             Controls.Add(SetDnsBtn);
             Controls.Add(DNSCombobox);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Main";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "DNS Switcher";

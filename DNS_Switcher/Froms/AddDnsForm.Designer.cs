@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddDnsForm));
             CancelBtn = new Button();
             SaveDnsBtn = new Button();
             DnsNameInput = new TextBox();
@@ -194,6 +195,7 @@
             Controls.Add(SaveDnsBtn);
             Controls.Add(CancelBtn);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "AddDnsForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Add Dns";

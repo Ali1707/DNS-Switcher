@@ -8,10 +8,11 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>DNS-Switcher_Logo.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cake.Powershell" Version="3.0.0" />
+    <Content Include="DNS-Switcher_Logo.ico" />
   </ItemGroup>
 
   <ItemGroup>

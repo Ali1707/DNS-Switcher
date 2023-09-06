@@ -12,9 +12,9 @@ namespace DNS_Switcher.Froms
 
         private void SaveDnsBtn_Click(object sender, EventArgs e)
         {
-            if(string.IsNullOrEmpty(DnsNameInput.Text) || string.IsNullOrEmpty(IPV4Index1Input.Text))
+            if (string.IsNullOrEmpty(DnsNameInput.Text) || string.IsNullOrEmpty(IPV4Index1Input.Text))
             {
-                MessageBox.Show("Dns name and IPV4 Index1 can't be empty");
+                MessageBox.Show("Dns Name and IPV4 Index1 can't be empty");
                 return;
             }
             else

@@ -8,7 +8,7 @@ namespace DNS_Switcher.Froms
     public partial class Main : Form
     {
         private List<DNSServerModel> _DNSModelList = new();
-        private List<string> _DNSNameList = new();
+
         private DnsService _DnsService = new();
 
         public Main()
@@ -26,18 +26,30 @@ namespace DNS_Switcher.Froms
                 if (dnsServers.Count > 0)
                 {
                     _DNSModelList.AddRange(dnsServers);
-                    _DNSNameList.AddRange(dnsServers.Select(d => d.DNSServerName));
                     //DNSCombobox.DataSource = _DNSNameList;
-                    foreach (var dnsServerName in _DNSNameList)
+                    foreach (var dnsServer in _DNSModelList)
                     {
-                        DNSCombobox.Items.Add(dnsServerName);
+                        DNSCombobox.Items.Add(dnsServer.DNSServerName);
                     }
-                    DNSCombobox.SelectedItem = null;
+                    getNameOfcurrentDnsIfIsMuchWithDnsList();
                 }
             }
         }
 
-
+        private void getNameOfcurrentDnsIfIsMuchWithDnsList()
+        {
+            var currentDnsList = _DnsService.GetcurrentDns();
+            foreach (var dnslist in _DNSModelList)
+            {
+                foreach (var currentDns in currentDnsList)
+                {
+                    if (dnslist.IPV4Index1 == currentDns || dnslist.IPV4Index2 == currentDns || dnslist.IPV6Index1 == currentDns || dnslist.IPV6Index2 == currentDns)
+                    {
+                        DNSCombobox.SelectedItem = dnslist.DNSServerName;
+                    }
+                }
+            }
+        }
 
         private void SetDnsBtn_Click(object sender, EventArgs e)
         {
@@ -51,9 +63,9 @@ namespace DNS_Switcher.Froms
                     {
                         _DnsService.SetIP6ForAllNetWork(dns.IPV6Index1, dns.IPV6Index2);
                     }
-                    if(DoHcheckBox.Checked)
+                    if (DoHcheckBox.Checked)
                     {
-                        _DnsService.SetDohAllNetWork(dns.IPV4Index1,dns.DOH);
+                        _DnsService.SetDohAllNetWork(dns.IPV4Index1, dns.DOH);
                     }
                     MessageBox.Show("successful");
                 }
@@ -65,6 +77,12 @@ namespace DNS_Switcher.Froms
         {
             ManeageDnsForm MD = new ManeageDnsForm();
             MD.ShowDialog();
+        }
+
+        private void ClearDNS_Click(object sender, EventArgs e)
+        {
+            if (_DnsService.DeleteCurrentDns())
+                DNSCombobox.SelectedItem = null;
         }
     }
 }

@@ -1,14 +1,8 @@
 ﻿using DNS_Switcher.Models;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Management.Automation;
 using System.Net;
 using System.Net.NetworkInformation;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace DNS_Switcher.Services
 {
@@ -57,7 +51,20 @@ namespace DNS_Switcher.Services
             }
             return dnsServers;
         }
-
+        public List<string> GetcurrentDns()
+        {
+            var currentDnsServers = new List<string>();
+            foreach (var netWork in GetActiveNetwork())
+            {
+                IPInterfaceProperties ipProperties = netWork.GetIPProperties();
+                IPAddressCollection dnsAddresses = ipProperties.DnsAddresses;
+                foreach (IPAddress dnsAdress in dnsAddresses)
+                {
+                    currentDnsServers.Add(dnsAdress.ToString());
+                }
+            }
+            return currentDnsServers.Distinct().ToList();
+        }
         /// <summary>
         /// Add list of DNS To Local json File if Exists added if not Exists create new file
         /// </summary>
@@ -122,13 +129,13 @@ namespace DNS_Switcher.Services
         {
             try
             {
-                foreach (var networkName in GetActiveNetworkName())
+                foreach (var network in GetActiveNetwork())
                 {
-                    var command = $@"interface ipv4 set dns name=""{networkName}"" static {ip4DnsIndex1}";
+                    var command = $@"interface ipv4 set dns name=""{network.Name}"" static {ip4DnsIndex1}";
                     Process.Start("netsh", command);
                     if (ip4DnsIndex2 != null)
                     {
-                        var command2 = $@"interface ipv4 add dns name=""{networkName}"" addr={ip4DnsIndex2} index=2";
+                        var command2 = $@"interface ipv4 add dns name=""{network.Name}"" addr={ip4DnsIndex2} index=2";
                         Process.Start("netsh", command2);
                     }
                 }
@@ -146,16 +153,16 @@ namespace DNS_Switcher.Services
         {
             try
             {
-                foreach (var networkName in GetActiveNetworkName())
+                foreach (var network in GetActiveNetwork())
                 {
                     if (ip6DnsIndex1 != null)
                     {
-                        var command = $@"interface ipv6 add dnsservers ""{networkName}"" ""{ip6DnsIndex1}"" index=1";
+                        var command = $@"interface ipv6 add dnsservers ""{network.Name}"" ""{ip6DnsIndex1}"" index=1";
                         Process.Start("netsh", command);
                     }
                     if (ip6DnsIndex2 != null)
                     {
-                        var command2 = $@"interface ipv6 add dnsservers ""{networkName}"" ""{ip6DnsIndex2}"" index=2";
+                        var command2 = $@"interface ipv6 add dnsservers ""{network.Name}"" ""{ip6DnsIndex2}"" index=2";
                         Process.Start("netsh", command2);
                     }
                 }
@@ -171,9 +178,9 @@ namespace DNS_Switcher.Services
         {
             try
             {
-                foreach (var networkName in GetActiveNetworkName())
+                foreach (var network in GetActiveNetwork())
                 {
-                    var command = $@"Add-DnsClientDohServerAddress -ServerAddress {networkName} -DohTemplate {doh}";
+                    var command = $@"Add-DnsClientDohServerAddress -ServerAddress {network.Name} -DohTemplate {doh}";
                     Process.Start("powershell.exe", command);
                 }
                 return true;
@@ -188,15 +195,45 @@ namespace DNS_Switcher.Services
         /// get name of all network profile
         /// </summary>
         /// <returns></returns>
-        IEnumerable<string> GetActiveNetworkName()
+        IEnumerable<NetworkInterface> GetActiveNetwork()
         {
             foreach (NetworkInterface adapter in NetworkInterface.GetAllNetworkInterfaces())
             {
                 if (adapter.OperationalStatus == OperationalStatus.Up &&
                    adapter.NetworkInterfaceType != NetworkInterfaceType.Loopback)
                 {
-                    yield return adapter.Name;
+                    yield return adapter;
                 }
+            }
+        }
+
+        public bool DeleteDns(string dnsName)
+        {
+            var dnsServers = GetAllDNSfromFile();
+            var selectedDns = dnsServers.FirstOrDefault(d=>d.DNSServerName == dnsName);
+            if (selectedDns != null)
+            {
+                dnsServers.Remove(selectedDns);
+                AddDNSToLocalFile(dnsServers);
+                return true;
+            }
+            return false;
+        }
+        public bool DeleteCurrentDns()
+        {
+            try
+            {
+                foreach (var network in GetActiveNetwork())
+                {
+                    //netsh interface ip delete dns name="YOUR_NETWORK_INTERFACE_NAME" all
+                    var command = $@"interface ip delete dns name=""{network.Name}"" all";
+                    Process.Start("netsh", command);
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
     }
