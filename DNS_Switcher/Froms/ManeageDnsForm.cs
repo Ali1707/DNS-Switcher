@@ -51,8 +51,24 @@ namespace DNS_Switcher.Froms
 
                 Controls.Add(DeleteDnsBtn);
             }
+            var addDnsBtn = new Button()
+            {
+                Name = "addDnsBtn",
+                Text = "Add DNS",
+                Height = 60,
+                Width = 420,
+                Location = new Point
+                {
+                    X = 0,
+                    Y = loc.Y + 80
+                },
+                BackColor = Color.White,
+                ForeColor = Color.Black
+            };
+            addDnsBtn.Click += AddDnsBtn_Click;
+            Controls.Add(addDnsBtn);
             this.Width = 440;
-            this.Height = loc.Y + 100;
+            this.Height = loc.Y + 180;
         }
 
         private void AddDnsBtn_Click(object sender, EventArgs e)
