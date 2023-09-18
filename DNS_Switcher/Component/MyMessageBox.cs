@@ -1,22 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace DNS_Switcher.Component
+﻿namespace DNS_Switcher.Component
 {
     public partial class MyMessageBox : Form
     {
+        public int DestroyTime { get; set; }
         public MyMessageBox()
         {
             InitializeComponent();
         }
-        public void Set(string message)
+        public void Set(string message, int? destroyTime = null)
         {
             Text = "Custom Message Box";
             Size = new System.Drawing.Size(300, 150);
@@ -35,6 +26,10 @@ namespace DNS_Switcher.Component
 
             Controls.Add(label);
             Controls.Add(closeButton);
+            if (destroyTime.HasValue)
+            {
+                this.DestroyTime = destroyTime.Value;
+            }
         }
 
         private void MyMessageBox_Load(object sender, EventArgs e)
@@ -44,8 +39,11 @@ namespace DNS_Switcher.Component
 
         private async void MyMessageBox_Activated(object sender, EventArgs e)
         {
-            await Task.Delay(4000).WaitAsync(TimeSpan.FromSeconds(5));
-            this.Close();
+            if(DestroyTime > 0)
+            {
+                await Task.Delay(4000).WaitAsync(TimeSpan.FromSeconds(5));
+                this.Close();
+            }
         }
     }
 }

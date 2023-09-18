@@ -62,7 +62,7 @@ namespace DNS_Switcher.Froms
                     }
                     //MessageBox.Show("successful");
                     var successfulMessage = new MyMessageBox();
-                    successfulMessage.Set("successful");
+                    successfulMessage.Set("successful",4000);
                     successfulMessage.ShowDialog();
                     
                 }
