@@ -1,7 +1,9 @@
+using DNS_Switcher.Component;
 using DNS_Switcher.Models;
 using DNS_Switcher.Services;
 using System.Diagnostics;
 using System.Net.NetworkInformation;
+using System.Timers;
 
 namespace DNS_Switcher.Froms
 {
@@ -31,24 +33,15 @@ namespace DNS_Switcher.Froms
                     {
                         DNSCombobox.Items.Add(dnsServer.DNSServerName);
                     }
-                    getNameOfcurrentDnsIfIsMuchWithDnsList();
+                    SelecetCurrentDns();
                 }
             }
         }
 
-        private void getNameOfcurrentDnsIfIsMuchWithDnsList()
+        private async void SelecetCurrentDns()
         {
-            var currentDnsList = _DnsService.GetcurrentDns();
-            foreach (var dnslist in _DNSModelList)
-            {
-                foreach (var currentDns in currentDnsList)
-                {
-                    if (dnslist.IPV4Index1 == currentDns || dnslist.IPV4Index2 == currentDns || dnslist.IPV6Index1 == currentDns || dnslist.IPV6Index2 == currentDns)
-                    {
-                        DNSCombobox.SelectedItem = dnslist.DNSServerName;
-                    }
-                }
-            }
+            var currentDnsList = await _DnsService.GetcurrentDns();
+            DNSCombobox.SelectedItem = currentDnsList;
         }
 
         private void SetDnsBtn_Click(object sender, EventArgs e)
@@ -67,9 +60,12 @@ namespace DNS_Switcher.Froms
                     {
                         _DnsService.SetDohAllNetWork(dns.IPV4Index1, dns.DOH);
                     }
-                    MessageBox.Show("successful");
+                    //MessageBox.Show("successful");
+                    var successfulMessage = new MyMessageBox();
+                    successfulMessage.Set("successful");
+                    successfulMessage.ShowDialog();
+                    
                 }
-
             }
         }
 

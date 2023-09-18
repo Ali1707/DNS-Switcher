@@ -51,9 +51,10 @@ namespace DNS_Switcher.Services
             }
             return dnsServers;
         }
-        public List<string> GetcurrentDns()
+        public async Task<string> GetcurrentDns()
         {
             var currentDnsServers = new List<string>();
+            var allDns = await GetDNS();
             foreach (var netWork in GetActiveNetwork())
             {
                 IPInterfaceProperties ipProperties = netWork.GetIPProperties();
@@ -63,7 +64,17 @@ namespace DNS_Switcher.Services
                     currentDnsServers.Add(dnsAdress.ToString());
                 }
             }
-            return currentDnsServers.Distinct().ToList();
+            foreach (var dnslist in allDns)
+            {
+                foreach (var currentDns in currentDnsServers)
+                {
+                    if (dnslist.IPV4Index1 == currentDns || dnslist.IPV4Index2 == currentDns || dnslist.IPV6Index1 == currentDns || dnslist.IPV6Index2 == currentDns)
+                    {
+                        return dnslist.DNSServerName;
+                    }
+                }
+            }
+            return null;
         }
         /// <summary>
         /// Add list of DNS To Local json File if Exists added if not Exists create new file
